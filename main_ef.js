@@ -234,7 +234,6 @@ function nombre(){
 const name = document.querySelector("#implemento_name");
 const categoria = document.querySelector("#categoria").value;
 const url = `http://localhost:3000/api/inventario/cat_implemento/${encodeURIComponent(categoria)}`;
-name.innerHTML = '<option value="" disabled selected>Seleccione el implemento</option>';
     fetch(url,{
         method: 'GET',
     })
