@@ -31,12 +31,14 @@ function cargarImplementos(){
             btnEditar.textContent = 'Editar';
             btnEditar.className = 'btn btn-warning btn-sm align-items-center';
             btnEditar.style = 'float: center;';
-            btnEditar.onclick = () => {
+            btnEditar.dataset.id_implemento = implemento.id_implemento;
+            btnEditar.onclick = (dataset) => {
+                const id_implemento = dataset.target.dataset.id_implemento;
+                console.log("imprimir valor",id_implemento);
+                sessionStorage.setItem('id_implemento', id_implemento);
                 window.location.href = `editar_frm.html`;
             };
             fila.insertCell().appendChild(btnEditar);
-            
-            
         });
     })
     .catch(error => {

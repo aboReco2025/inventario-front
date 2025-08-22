@@ -14,51 +14,76 @@
         <a class="btn btn-secondary" style="float:right" href="index.html">Inventario</a><br>
 
         <form class="form-select" size="3" aria-label="Size 3 select example" id="formulario">
+        
+        <label for="categoria">Categoría
             <div>
             <select onchange="activarCategoria(); nombre()" class="form-select" aria-label="Default select example" id="categoria">
                 <option value="" disabled selected>Seleccione la categoría</option>
                 <option value="Equipos de computo">Equipos de computo</option>
                 <option value="Muebles">Muebles</option>
             </select>
-        </div><br>
+        </div>
+        </label>
+
+        <label for="implemento_name">Tipo de implemento
         <div>
             <select name="implemento_name" class="form-select" aria-label="Default select example" id="implemento_name">
                 <option value="" disabled selected>Seleccione el implemento</option>
             </select>
-        </div><br>
+        </div>
+        </label>
+
+        <label for="departamento">Departamento
         <div>
             <select  name="departamento" class="form-select" aria-label="Default select example" id="departamento">
               <option value="" disabled selected>Seleccione el departamento</option>
             </select>
-        </div><br>
-        <div>
-            <select onchange="activarCondicion()" class="form-select" aria-label="Default select example" id="condicion">
-                <option value="" disabled selected>Seleccione la Condición</option>
-                <option value="Nuevo">Nuevo</option>
-                <option value="Bueno">Bueno</option>
-                <option value="Regular">Regular</option>
-                <option value="Malo">Malo</option>
-            </select>
-        </div><br>
-        <div>
-            <select onchange="activarPertenencia()" class="form-select" aria-label="Default select example" id="pertenencia">
-                <option value="" disabled selected>Seleccione a quien pertenece</option>
-                <option value="Propio">Propio</option>
-                <option value="Alquiler">Alquiler</option>
-            </select>
-        </div><br>
+        </div>
+        </label>
+
+        <label for="estado">Condición
+            <div>
+                <select onchange="activarCondicion()" class="form-select" aria-label="Default select example" id="condicion">
+                    <option value="" disabled selected>Seleccione la Condición</option>
+                    <option value="Nuevo">Nuevo</option>
+                    <option value="Bueno">Bueno</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Malo">Malo</option>
+                </select>
+            </div>
+        </label>
+
+        <label for="Pertenencia">Propiedad
+            <div>
+                <select onchange="activarPertenencia()" class="form-select" aria-label="Default select example" id="pertenencia">
+                    <option value="" disabled selected>Seleccione a quien pertenece</option>
+                    <option value="Propio">Propio</option>
+                    <option value="Alquiler">Alquiler</option>
+                </select>
+            </div>
+        </label>
         <!--<div class="input-field col s12">
             <input onchange="activarCantidad()" type="number" name="cantidad" placeholder="Ingrese la Cantidad" id="cantidad">
         </div><br>-->
-        <div class="input-field col s12">
-            <input onchange="activarValor()" type="number" name="valor" placeholder="Ingrese el valor" id="valor">
-        </div> <br>
-        <div class="input-field col s12">
-            <input onchange="activarFecha()" type="date" name="fecha" placeholder="Ingrese la Fecha" id="fecha">
-        </div>
-            <br>
-        <button type='submit' class="btn btn-primary" name="submit" id="btnRegistrar">Registrar</button>
-        <button onclick="limpiarFormulario()" class="btn btn-secondary" id="btnLimpiar">Limpiar</button>
+        <label for="valor">Valor
+            <div>
+                <input onchange="activarValor()" class="form-control" type="number" name="valor" placeholder="Ingrese el valor" id="valor">
+            </div>
+        </label>
+
+        <label for="fecha">Fecha
+            <div>
+                <input onchange="activarFecha()" class="form-control" type="date" name="fecha" placeholder="Ingrese la Fecha" id="fecha">
+            </div>
+        </label>
+
+        <label for="botones">
+            <div>
+                <button type='submit' class="btn btn-primary" name="submit" id="btnRegistrar">Registrar</button>
+                <button onclick="limpiarFormulario()" class="btn btn-secondary" id="btnLimpiar">Limpiar</button>
+            </div>
+        </label>
+        
     </form>
     <script src='main.js'></script>
     </body>

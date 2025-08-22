@@ -302,6 +302,27 @@ const url = 'http://localhost:3000/api/inventario/cat_implemento';
         })
 }
 
+function traerInformacion(){
+    return new Promise((resolve, reject) => {
+        const id_implemento = sessionStorage.getItem('id_implemento');
+        const url = 'http://localhost:3000/api/inventario/implemento/' + id_implemento;
+        fetch(url, {
+            method: 'GET',
+        })
+            .then(res => res.json())
+            .then(implemento =>{
+                resolve(implemento);
+            })
+            .catch(function (error) {
+                console.error("¡Error!", error);
+                reject(error);
+            }
+        );
+    })
+    
+}
+
+
 function activarEstado(){
     const url = 'http://localhost:3000/api/inventario/departamento';
     fetch(url, {
