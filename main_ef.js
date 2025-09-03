@@ -23,16 +23,12 @@ function activarPertenencia() {
     const inventario = document.querySelector('#pertenencia');
     return inventario.value;
 }
-// Captura la información del nombre de la cantidad en el formulario
-/*function activarCantidad(){
-    const inventario = document.querySelector('#cantidad');
-    if (Number(inventario.value) < 1){
-        alert("La cantidad debe ser mayor a 0");
-        return;
-    }
-    console.log(inventario.value);
+
+function activarPropietario() {
+    const inventario = document.querySelector('#propietario');
     return inventario.value;
-}*/
+}
+
 
 // Captura la información del nombre del valor en el formulario
 function activarValor() {
@@ -50,96 +46,11 @@ function activarFecha() {
     return inventario.value;
 }
 
-function idImplemento() {
-    return fetch(`http://localhost:3000/api/inventario/implemento`)
-        .then(res => res.json())
-        .then(implementos => {
-            if (categoria === "Muebles"){
-                const cat = implementos.filter(items => item.categoria === "Muebles").lenght();
-                id_implemento = `ARCSAS-M${cat + 1}`;
-                resolve(id_implemento);
-            }
-            else{
-                const cat = implementos.filter(categoria === "Equipos de Computo").count();
-                id_implemento = `ARCSAS-T${cat + 1}`;
-                return id_implemento;
-            }
-        })
-        .catch(err => {
-            console.error('❌ Error al generar el ID:', err);
-            return null;
-        });
+function activarEstado(){
+    const estado = document.querySelector('#estado');
+    return estado.value;
+    
 }
-
-async function mostrarConteo() {
-  try {
-    const totalMuebles = await contarMueblesDesdeAPI();
-    const totalEquipos = await contarEquiposDesdeAPI();
-  } catch (error) {
-    console.error("Error al contar los muebles:", error);
-  }
-}
-
-function contarMueblesDesdeAPI() {
-  return new Promise((resolve, reject) => {
-    fetch('http://localhost:3000/api/inventario/implemento')
-      .then(res => res.json())
-      .then(data => {
-        const totalm = data.filter(item => item.categoria === "Muebles").length;
-        resolve(totalm);
-      })
-      .catch(error => reject(error));
-  });
-}
-
-function contarEquiposDesdeAPI() {
-  return new Promise((resolve, reject) => {
-    fetch('http://localhost:3000/api/inventario/implemento')
-      .then(res => res.json())
-      .then(data => {
-        const totale = data.filter(item => item.categoria === "Equipos de Computo").length;
-        resolve(totale);
-      })
-      .catch(error => reject(error));
-  });
-}
-
-
-async function idMuebles() {
-  try {
-    const totalMuebles = await contarMueblesDesdeAPI();
-    let id = 1000 + (totalMuebles + 1)
-    let id_implemento = 'ARCSAS-M' + id;
-    return id_implemento;
-  } catch (error) {
-    console.error("Error al contar los muebles:", error);
-  }
-}
-
-async function idEquipo() {
-    try {
-    const totalEquipos = await contarEquiposDesdeAPI();
-    let id = 1000 + (totalEquipos + 1)
-    let id_implemento = 'ARCSAS-T' + id;
-    return id_implemento;
-  } catch (error) {
-    console.error("Error al contar los muebles:", error);
-  }
-}
-
-async function idImplementos(){
-    categoria = activarCategoria();
-    if (categoria === "Muebles") {
-        return await idMuebles();
-    }
-    else{
-        return await idEquipo();
-    }
-
-}
-// Llamar la función
-mostrarConteo();
-
 
 //Inserta la información en la tabla del front
 const tabla = document.querySelector('#tabla #tabla-body');
@@ -155,22 +66,10 @@ form.addEventListener('submit', async function (event) {
     const departamento = activarDepartamento();
     const condicion = activarCondicion();
     const pertenencia = activarPertenencia();
-    //const cantidad = activarCantidad();
+    const propietario = activarPropietario();
     const valor = activarValor();
-    //const total = activarValor() * activarCantidad();
     const fecha = activarFecha();
-    /*agregarFila({
-        id_implemento,
-        nombre,
-        categoria,
-        departamento,
-        condicion,
-        pertenencia,
-        //cantidad,
-        valor,
-        fecha,
-        total,
-    })*/
+    const estado = activarEstado();
 
     const datos = {
         id_implemento,
@@ -179,11 +78,12 @@ form.addEventListener('submit', async function (event) {
         departamento,
         condicion,
         pertenencia,
-        //cantidad,
+        propietario,
         valor,
-        fecha
+        fecha,
+        estado
     };
-    enviarAlBackend(datos)
+    actualizarImplemento(datos)
     limpiarFormulario();
 })
 
@@ -196,7 +96,7 @@ function agregarFila(formulario) {
     fila.insertCell().textContent = formulario.departamento;
     fila.insertCell().textContent = formulario.condicion;
     fila.insertCell().textContent = formulario.pertenencia;
-    //fila.insertCell().textContent = formulario.cantidad;
+    fila.insertCell().textContent = formulario.Propietario;
     fila.insertCell().textContent = formulario.valor;
     fila.insertCell().textContent = formulario.fecha;
     fila.insertCell().textContent = formulario.total;
@@ -230,26 +130,33 @@ function enviarAlBackend(datos) {
 
 
 
-function nombre(){
-const name = document.querySelector("#implemento_name");
-const categoria = document.querySelector("#categoria").value;
-const url = `http://localhost:3000/api/inventario/cat_implemento/${encodeURIComponent(categoria)}`;
-    fetch(url,{
-        method: 'GET',
-    })
-        .then(res => res.json())
-        .then(lista_cat =>{
-            for (let implemento of lista_cat) {
-                let nuevaOpcion = document.createElement("option");
-                nuevaOpcion.value = implemento.nom_implemento;
-                nuevaOpcion.text = implemento.nom_implemento;
-                name.add(nuevaOpcion);
-            }
-        })
-        .catch(function (error) {
-            console.error("¡Error!", error);
-        });
-} 
+async function nombre(selectedValue = null) {
+    const name = document.querySelector("#implemento_name");
+    const categoria = document.querySelector("#categoria").value;
+    const url = `http://localhost:3000/api/inventario/cat_implemento/${encodeURIComponent(categoria)}`;
+    if(!categoria){
+        name.innerHTML = "";
+        return;
+    }
+    // Limpia las opciones previas
+    name.innerHTML = "";
+    try {
+        const res = await fetch(url, { method: 'GET' });
+        const lista_cat = await res.json();
+        for (let implemento of lista_cat) {
+            let nuevaOpcion = document.createElement("option");
+            nuevaOpcion.value = implemento.nom_implemento;
+            nuevaOpcion.text = implemento.nom_implemento;
+            name.add(nuevaOpcion);
+        }
+        // Si se pasa un valor seleccionado, asígnalo
+        if (selectedValue) {
+            name.value = selectedValue;
+        }
+    } catch (error) {
+        console.error("¡Error!", error);
+    }
+}
 
 
 function recorrerDepartamentos() {
@@ -313,19 +220,23 @@ function traerInformacion(){
 }
 
 
-function activarEstado(){
-    const url = 'http://localhost:3000/api/inventario/departamento';
-    fetch(url, {
-        method: 'GET',
+
+
+function actualizarImplemento(datos){
+    fetch(`http://localhost:3000/api/inventario/implemento/${datos.id_implemento}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(datos)
     })
         .then(res => res.json())
-        .then(implemento =>{
-            for (let estado of implemento){          
-                
-        }
-    })
-        .catch(function (error) {
-            console.error("¡Error!", error);
-        }
-    );
+        .then(data => {
+            console.log('✔ Actualizado Correctamente:', data);
+            alert(data.mensaje);
+        })
+        .catch(error => {
+            console.error('❌ Error al enviar al backend:', error);
+            alert('Error al guardar en la base de datos');
+        });
 }

@@ -1,26 +1,55 @@
 // Captura la información del nombre del implemento en el formulario
 function activarNombre() {
     const implemento = document.querySelector('#implemento_name');
+    if (implemento.value == "") {
+        alert("Por favor, seleccione un implemento");
+        return null;
+    }
     return implemento.value;
 }
 // Captura la información del nombre de la categoria en el formulario
 function activarCategoria() {
     const categoria = document.querySelector('#categoria');
+    if (categoria.value == "") {
+        alert("Por favor, seleccione una catego");
+        return null;
+    }
     return categoria.value;
 }
 // Captura la información del nombre del departamento en el formulario
 function activarDepartamento() {
     const inventario = document.querySelector('#departamento');
+    if (inventario.value == "") {
+        alert("Por favor, seleccione un departamento");
+        return null;
+    }
     return inventario.value;
 }
 // Captura la información del nombre de la condición en el formulario
 function activarCondicion() {
     const inventario = document.querySelector('#condicion');
+    if (inventario.value == "") {
+        alert("Por favor, seleccione el estado del implemento");
+        return null;
+    }
     return inventario.value;
 }
 // Captura la información del nombre del propietario en el formulario
 function activarPertenencia() {
     const inventario = document.querySelector('#pertenencia');
+    if (inventario.value == "") {
+        alert("Por favor, seleccione la pertenencia del implemento");
+        return null;
+    }
+    return inventario.value;
+}
+
+function activarPropietario() {
+    const inventario = document.querySelector('#propietario');
+    if (inventario.value == "") {
+        alert("Por favor, seleccione el propietario del implemento");
+        return null;
+    }
     return inventario.value;
 }
 // Captura la información del nombre de la cantidad en el formulario
@@ -44,9 +73,14 @@ function activarValor() {
     }
     return inventario.value;
 }
+
 // Captura la información del nombre de la fecha en el formulario
 function activarFecha() {
     const inventario = document.querySelector('#fecha');
+    if (fecha.value == "") {
+        alert("Por favor, seleccione una fecha");
+        return null;
+    }
     return inventario.value;
 }
 
@@ -54,12 +88,12 @@ function idImplemento() {
     return fetch(`http://localhost:3000/api/inventario/implemento`)
         .then(res => res.json())
         .then(implementos => {
-            if (categoria === "Muebles"){
+            if (categoria === "Muebles") {
                 const cat = implementos.filter(items => item.categoria === "Muebles").lenght();
                 id_implemento = `ARCSAS-M${cat + 1}`;
                 resolve(id_implemento);
             }
-            else{
+            else {
                 const cat = implementos.filter(categoria === "Equipos de Computo").count();
                 id_implemento = `ARCSAS-T${cat + 1}`;
                 return id_implemento;
@@ -72,67 +106,67 @@ function idImplemento() {
 }
 
 async function mostrarConteo() {
-  try {
-    const totalMuebles = await contarMueblesDesdeAPI();
-    const totalEquipos = await contarEquiposDesdeAPI();
-  } catch (error) {
-    console.error("Error al contar los muebles:", error);
-  }
+    try {
+        const totalMuebles = await contarMueblesDesdeAPI();
+        const totalEquipos = await contarEquiposDesdeAPI();
+    } catch (error) {
+        console.error("Error al contar los muebles:", error);
+    }
 }
 
 function contarMueblesDesdeAPI() {
-  return new Promise((resolve, reject) => {
-    fetch('http://localhost:3000/api/inventario/implemento')
-      .then(res => res.json())
-      .then(data => {
-        const totalm = data.filter(item => item.categoria === "Muebles").length;
-        resolve(totalm);
-      })
-      .catch(error => reject(error));
-  });
+    return new Promise((resolve, reject) => {
+        fetch('http://localhost:3000/api/inventario/implemento')
+            .then(res => res.json())
+            .then(data => {
+                const totalm = data.filter(item => item.categoria === "Muebles").length;
+                resolve(totalm);
+            })
+            .catch(error => reject(error));
+    });
 }
 
 function contarEquiposDesdeAPI() {
-  return new Promise((resolve, reject) => {
-    fetch('http://localhost:3000/api/inventario/implemento')
-      .then(res => res.json())
-      .then(data => {
-        const totale = data.filter(item => item.categoria === "Equipos de Computo").length;
-        resolve(totale);
-      })
-      .catch(error => reject(error));
-  });
+    return new Promise((resolve, reject) => {
+        fetch('http://localhost:3000/api/inventario/implemento')
+            .then(res => res.json())
+            .then(data => {
+                const totale = data.filter(item => item.categoria === "Equipos de Computo").length;
+                resolve(totale);
+            })
+            .catch(error => reject(error));
+    });
 }
 
 
 async function idMuebles() {
-  try {
-    const totalMuebles = await contarMueblesDesdeAPI();
-    let id = 1000 + (totalMuebles + 1)
-    let id_implemento = 'ARCSAS-M' + id;
-    return id_implemento;
-  } catch (error) {
-    console.error("Error al contar los muebles:", error);
-  }
+    try {
+        const totalMuebles = await contarMueblesDesdeAPI();
+        let id = 1000 + (totalMuebles + 1)
+        let id_implemento = 'ARCSAS-M' + id;
+        return id_implemento;
+    } catch (error) {
+        console.error("Error al contar los muebles:", error);
+    }
 }
 
 async function idEquipo() {
     try {
-    const totalEquipos = await contarEquiposDesdeAPI();
-    let id = 1000 + (totalEquipos + 1)
-    let id_implemento = 'ARCSAS-T' + id;
-    return id_implemento;
-  } catch (error) {
-    console.error("Error al contar los muebles:", error);
-  }
+        const totalEquipos = await contarEquiposDesdeAPI();
+        let id = 1000 + (totalEquipos + 1)
+        let id_implemento = 'ARCSAS-T' + id;
+        return id_implemento;
+    } catch (error) {
+        console.error("Error al contar los muebles:", error);
+    }
 }
 
-async function idImplementos(){
+async function idImplementos() {
     categoria = activarCategoria();
     if (categoria === "Muebles") {
         return await idMuebles();
     }
-    else{
+    else {
         return await idEquipo();
     }
 
@@ -147,30 +181,22 @@ const tabla = document.querySelector('#tabla #tabla-body');
 // Captura la información del formulario y la agrega a la tabla
 const form = document.querySelector('#formulario');
 
+limpiarFormulario();
+
 form.addEventListener('submit', async function (event) {
     event.preventDefault();
     const id_implemento = await idImplementos();
     const nombre = activarNombre();
-    const categoria = activarCategoria();
     const departamento = activarDepartamento();
     const condicion = activarCondicion();
     const pertenencia = activarPertenencia();
-    //const cantidad = activarCantidad();
+    const propietario = activarPropietario();
     const valor = activarValor();
-    //const total = activarValor() * activarCantidad();
     const fecha = activarFecha();
-    /*agregarFila({
-        id_implemento,
-        nombre,
-        categoria,
-        departamento,
-        condicion,
-        pertenencia,
-        //cantidad,
-        valor,
-        fecha,
-        total,
-    })*/
+
+    if (!nombre || !categoria || !departamento || !condicion || !pertenencia || !propietario || !valor || !fecha) {
+        return;
+    }
 
     const datos = {
         id_implemento,
@@ -179,12 +205,12 @@ form.addEventListener('submit', async function (event) {
         departamento,
         condicion,
         pertenencia,
-        //cantidad,
+        propietario,
         valor,
         fecha
     };
     enviarAlBackend(datos)
-    limpiarFormulario();
+
 })
 
 // Inserta en cada fila de la tabla los datos del formulario
@@ -196,7 +222,7 @@ function agregarFila(formulario) {
     fila.insertCell().textContent = formulario.departamento;
     fila.insertCell().textContent = formulario.condicion;
     fila.insertCell().textContent = formulario.pertenencia;
-    //fila.insertCell().textContent = formulario.cantidad;
+    fila.insertCell().textContent = formulario.propietario;
     fila.insertCell().textContent = formulario.valor;
     fila.insertCell().textContent = formulario.fecha;
     fila.insertCell().textContent = formulario.total;
@@ -230,16 +256,16 @@ function enviarAlBackend(datos) {
 
 
 
-function nombre(){
-const name = document.querySelector("#implemento_name");
-const categoria = document.querySelector("#categoria").value;
-const url = `http://localhost:3000/api/inventario/cat_implemento/${encodeURIComponent(categoria)}`;
-name.innerHTML = '<option value="" disabled selected>Seleccione el implemento</option>';
-    fetch(url,{
+function nombre() {
+    const name = document.querySelector("#implemento_name");
+    const categoria = document.querySelector("#categoria").value;
+    const url = `http://localhost:3000/api/inventario/cat_implemento/${encodeURIComponent(categoria)}`;
+    name.innerHTML = '<option value="" disabled selected>Seleccione el implemento</option>';
+    fetch(url, {
         method: 'GET',
     })
         .then(res => res.json())
-        .then(lista_cat =>{
+        .then(lista_cat => {
             for (let implemento of lista_cat) {
                 let nuevaOpcion = document.createElement("option");
                 nuevaOpcion.value = implemento.nom_implemento;
@@ -250,12 +276,12 @@ name.innerHTML = '<option value="" disabled selected>Seleccione el implemento</o
         .catch(function (error) {
             console.error("¡Error!", error);
         });
-} 
+}
 
 
 function recorrerDepartamentos() {
-const select = document.querySelector("#departamento");
-const url = 'http://localhost:3000/api/inventario/departamento';
+    const select = document.querySelector("#departamento");
+    const url = 'http://localhost:3000/api/inventario/departamento';
     fetch(url, {
         method: 'GET',
     })
@@ -273,27 +299,27 @@ const url = 'http://localhost:3000/api/inventario/departamento';
         });
 }
 
-function recorrerImplementos(){
-const select = document.querySelector("#categoria");
-const url = 'http://localhost:3000/api/inventario/cat_implemento';
-    fetch(url,{
+function recorrerImplementos() {
+    const select = document.querySelector("#categoria");
+    const url = 'http://localhost:3000/api/inventario/cat_implemento';
+    fetch(url, {
         method: 'GET',
     })
         .then(res => res.json())
-        .then(lista_cat =>{
-            for (let implemento of lista_cat){
+        .then(lista_cat => {
+            for (let implemento of lista_cat) {
                 let nuevaOpcion = document.createElement("option");
                 nuevaOpcion.value = implemento.id;
                 nuevaOpcion.text = implemento.nombre;
                 select.add(nuevaOpcion);
             }
         })
-        .catch(function (error){
+        .catch(function (error) {
             console.error("¡Error!", error);
         })
 }
 
-function traerInformacion(){
+function traerInformacion() {
     return new Promise((resolve, reject) => {
         const id_implemento = sessionStorage.getItem('id_implemento');
         const url = 'http://localhost:3000/api/inventario/implemento/' + id_implemento;
@@ -301,32 +327,32 @@ function traerInformacion(){
             method: 'GET',
         })
             .then(res => res.json())
-            .then(implemento =>{
+            .then(implemento => {
                 resolve(implemento);
             })
             .catch(function (error) {
                 console.error("¡Error!", error);
                 reject(error);
             }
-        );
+            );
     })
-    
+
 }
 
 
-function activarEstado(){
+function activarEstado() {
     const url = 'http://localhost:3000/api/inventario/departamento';
     fetch(url, {
         method: 'GET',
     })
         .then(res => res.json())
-        .then(implemento =>{
-            for (let estado of implemento){          
-                
-        }
-    })
+        .then(implemento => {
+            for (let estado of implemento) {
+
+            }
+        })
         .catch(function (error) {
             console.error("¡Error!", error);
         }
-    );
+        );
 }
