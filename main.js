@@ -84,96 +84,6 @@ function activarFecha() {
     return inventario.value;
 }
 
-function idImplemento() {
-    return fetch(`http://localhost:3000/api/inventario/implemento`)
-        .then(res => res.json())
-        .then(implementos => {
-            if (categoria === "Muebles") {
-                const cat = implementos.filter(items => item.categoria === "Muebles").lenght();
-                id_implemento = `ARCSAS-M${cat + 1}`;
-                resolve(id_implemento);
-            }
-            else {
-                const cat = implementos.filter(categoria === "Equipos de Computo").count();
-                id_implemento = `ARCSAS-T${cat + 1}`;
-                return id_implemento;
-            }
-        })
-        .catch(err => {
-            console.error('❌ Error al generar el ID:', err);
-            return null;
-        });
-}
-
-async function mostrarConteo() {
-    try {
-        const totalMuebles = await contarMueblesDesdeAPI();
-        const totalEquipos = await contarEquiposDesdeAPI();
-    } catch (error) {
-        console.error("Error al contar los muebles:", error);
-    }
-}
-
-function contarMueblesDesdeAPI() {
-    return new Promise((resolve, reject) => {
-        fetch('http://localhost:3000/api/inventario/implemento')
-            .then(res => res.json())
-            .then(data => {
-                const totalm = data.filter(item => item.categoria === "Muebles").length;
-                resolve(totalm);
-            })
-            .catch(error => reject(error));
-    });
-}
-
-function contarEquiposDesdeAPI() {
-    return new Promise((resolve, reject) => {
-        fetch('http://localhost:3000/api/inventario/implemento')
-            .then(res => res.json())
-            .then(data => {
-                const totale = data.filter(item => item.categoria === "Equipos de Computo").length;
-                resolve(totale);
-            })
-            .catch(error => reject(error));
-    });
-}
-
-
-async function idMuebles() {
-    try {
-        const totalMuebles = await contarMueblesDesdeAPI();
-        let id = 1000 + (totalMuebles + 1)
-        let id_implemento = 'ARCSAS-M' + id;
-        return id_implemento;
-    } catch (error) {
-        console.error("Error al contar los muebles:", error);
-    }
-}
-
-async function idEquipo() {
-    try {
-        const totalEquipos = await contarEquiposDesdeAPI();
-        let id = 1000 + (totalEquipos + 1)
-        let id_implemento = 'ARCSAS-T' + id;
-        return id_implemento;
-    } catch (error) {
-        console.error("Error al contar los muebles:", error);
-    }
-}
-
-async function idImplementos() {
-    categoria = activarCategoria();
-    if (categoria === "Muebles") {
-        return await idMuebles();
-    }
-    else {
-        return await idEquipo();
-    }
-
-}
-// Llamar la función
-mostrarConteo();
-
 
 //Inserta la información en la tabla del front
 const tabla = document.querySelector('#tabla #tabla-body');
@@ -185,8 +95,8 @@ limpiarFormulario();
 
 form.addEventListener('submit', async function (event) {
     event.preventDefault();
-    const id_implemento = await idImplementos();
     const nombre = activarNombre();
+    const categoria = activarCategoria();
     const departamento = activarDepartamento();
     const condicion = activarCondicion();
     const pertenencia = activarPertenencia();
@@ -199,7 +109,6 @@ form.addEventListener('submit', async function (event) {
     }
 
     const datos = {
-        id_implemento,
         nombre,
         categoria,
         departamento,
@@ -216,7 +125,6 @@ form.addEventListener('submit', async function (event) {
 // Inserta en cada fila de la tabla los datos del formulario
 function agregarFila(formulario) {
     const fila = tabla.insertRow();
-    fila.insertCell().textContent = formulario.id_implemento;
     fila.insertCell().textContent = formulario.nombre;
     fila.insertCell().textContent = formulario.categoria;
     fila.insertCell().textContent = formulario.departamento;

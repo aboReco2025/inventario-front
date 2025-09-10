@@ -224,7 +224,7 @@ function traerInformacion(){
 
 function actualizarImplemento(datos){
     fetch(`http://localhost:3000/api/inventario/implemento/${datos.id_implemento}`, {
-        method: 'POST',
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
         },
