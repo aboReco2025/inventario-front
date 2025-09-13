@@ -52,24 +52,20 @@ function activarPropietario() {
     }
     return inventario.value;
 }
-// Captura la información del nombre de la cantidad en el formulario
-/*function activarCantidad(){
-    const inventario = document.querySelector('#cantidad');
-    if (Number(inventario.value) < 1){
-        alert("La cantidad debe ser mayor a 0");
-        return;
-    }
-    console.log(inventario.value);
-    return inventario.value;
-}*/
 
-// Captura la información del nombre del valor en el formulario
 function activarValor() {
     const inventario = document.querySelector('#valor');
     if (Number(inventario.value) < 10000) {
         alert("El valor debe ser mayor a 10000")
         inventario.reset();
         return;
+    }
+    else{
+        if (Number(inventario.value) >100000000){
+            alert("El valor debe ser menor a 100.000.000")
+            inventario.reset();
+            return;
+        }
     }
     return inventario.value;
 }
@@ -118,7 +114,9 @@ form.addEventListener('submit', async function (event) {
         valor,
         fecha
     };
-    enviarAlBackend(datos)
+    enviarAlBackend(datos);
+    alert('✅ Datos guardados correctamente');
+    window.location.href = `index.html`;
 
 })
 
@@ -154,7 +152,6 @@ function enviarAlBackend(datos) {
         .then(res => res.json())
         .then(data => {
             console.log('✔ Enviado al backend:', data);
-            alert(data.mensaje);
         })
         .catch(error => {
             console.error('❌ Error al enviar al backend:', error);

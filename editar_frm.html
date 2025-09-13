@@ -29,9 +29,9 @@
             <div class="form-group col-md-2">
                 <label for="categoria">Categoria</label>
                 <div>
-                    <select onload="activarCategoria(), nombre()" name="categoria" class="form-select"
+                    <select onload="activarCategoria()" onchange="nombre()" name="categoria" class="form-select"
                         aria-label="Default select example" id="categoria">
-                        <option value="Equipos de Computo">Equipos de computo</option>
+                        <option value="Equipos de Computo">Equipos de Computo</option>
                         <option value="Muebles">Muebles</option>
                     </select>
                 </div>
@@ -145,6 +145,7 @@
 
 
         traerInformacion().then(async (informacion) => {
+            console.log(informacion);
 
             valor.value = informacion.valor;
 
@@ -164,10 +165,16 @@
             console.log("Información de departamentos cargada correctamente.");
             console.log(informacion.nombre);
             console.log(informacion.categoria);
-            console.log(informacion.id_implemento)
+            console.log(informacion.id_implemento);
         }).catch(error => {
             console.error("Error al cargar la información de departamentos:", error);
         });
+
+        // Obtener la fecha actual en formato YYYY-MM-DD
+  const hoy = new Date().toISOString().split("T")[0];
+
+  // Asignar la fecha máxima al input
+  document.getElementById("fecha").setAttribute("max", hoy);
     </script>
 </body>
 

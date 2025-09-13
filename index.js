@@ -32,11 +32,12 @@ function cargarImplementos() {
                 btnEditar.textContent = 'Editar';
                 btnEditar.className = 'btn btn-warning btn-sm align-items-center';
                 btnEditar.style = 'float: center;';
-                btnEditar.dataset.id_implemento = implemento.id_implemento;
+                btnEditar.dataset.id = implemento.id;
+                console.log(implemento);
                 btnEditar.onclick = (dataset) => {
-                    const id_implemento = dataset.target.dataset.id_implemento;
-                    console.log("imprimir valor", id_implemento);
-                    sessionStorage.setItem('id_implemento', id_implemento);
+                    const id = dataset.target.dataset.id;
+                    console.log("📌 Guardando id en sessionStorage:", id);
+                    sessionStorage.setItem('id', id);
                     window.location.href = `editar_frm.html`;
                 };
                 fila.insertCell().appendChild(btnEditar);
@@ -49,3 +50,19 @@ function cargarImplementos() {
 document.addEventListener('DOMContentLoaded', () => {
     cargarImplementos();
 });
+
+function activarExportar() {
+    const btnExportar = document.getElementById("exportar");
+
+    if (!btnExportar) {
+        console.error("⚠️ No se encontró el botón con id 'exportar'");
+        return;
+    }
+
+    btnExportar.addEventListener("click", () => {
+        console.log("📌 Exportando inventario...");
+        window.location.href = "http://localhost:3000/api/exportar";
+    });
+}
+
+document.addEventListener("DOMContentLoaded", activarExportar);

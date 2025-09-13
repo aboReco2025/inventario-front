@@ -38,6 +38,13 @@ function activarValor() {
         inventario.reset();
         return;
     }
+    else{
+        if (Number(inventario.value) >100000000){
+            alert("El valor debe ser menor a 100.000.000")
+            inventario.reset();
+            return;
+        }
+    }
     return inventario.value;
 }
 // Captura la información del nombre de la fecha en el formulario
@@ -60,7 +67,6 @@ const form = document.querySelector('#formulario');
 
 form.addEventListener('submit', async function (event) {
     event.preventDefault();
-    const id_implemento = await idImplementos();
     const nombre = activarNombre();
     const categoria = activarCategoria();
     const departamento = activarDepartamento();
@@ -72,7 +78,6 @@ form.addEventListener('submit', async function (event) {
     const estado = activarEstado();
 
     const datos = {
-        id_implemento,
         nombre,
         categoria,
         departamento,
@@ -83,8 +88,8 @@ form.addEventListener('submit', async function (event) {
         fecha,
         estado
     };
-    actualizarImplemento(datos)
-    limpiarFormulario();
+    actualizarImplemento(datos);
+    window.location.href = `index.html`;
 })
 
 // Inserta en cada fila de la tabla los datos del formulario
@@ -134,12 +139,14 @@ async function nombre(selectedValue = null) {
     const name = document.querySelector("#implemento_name");
     const categoria = document.querySelector("#categoria").value;
     const url = `http://localhost:3000/api/inventario/cat_implemento/${encodeURIComponent(categoria)}`;
+    
     if(!categoria){
         name.innerHTML = "";
         return;
     }
     // Limpia las opciones previas
     name.innerHTML = "";
+    name.innerHTML = '<option value="" disabled selected>Seleccione el implemento</option>';
     try {
         const res = await fetch(url, { method: 'GET' });
         const lista_cat = await res.json();
@@ -201,29 +208,36 @@ const url = 'http://localhost:3000/api/inventario/cat_implemento';
 
 function traerInformacion(){
     return new Promise((resolve, reject) => {
-        const id_implemento = sessionStorage.getItem('id_implemento');
-        const url = 'http://localhost:3000/api/inventario/implemento/' + id_implemento;
+        const id = sessionStorage.getItem('id');
+        const url = 'http://localhost:3000/api/inventario/implemento/' + id;
         fetch(url, {
             method: 'GET',
         })
-            .then(res => res.json())
-            .then(implemento =>{
-                resolve(implemento);
-            })
-            .catch(function (error) {
-                console.error("¡Error!", error);
-                reject(error);
+        .then(res => {
+            if (!res.ok) {
+                // Si el estado no es OK, rechaza la promesa con un error
+                return reject(new Error(`HTTP error! Status: ${res.status}`));
             }
-        );
+            // Verifica si la respuesta está vacía
+            if (res.status === 204) {
+                return reject(new Error("No Content: La respuesta está vacía"));
+            }
+            return res.json();
+        })
+        .then(implemento =>{
+            resolve(implemento);
+        })
+        .catch(function (error) {
+            console.error("¡Error!", error);
+            reject(error);
+        });
     })
-    
 }
 
 
-
-
 function actualizarImplemento(datos){
-    fetch(`http://localhost:3000/api/inventario/implemento/${datos.id_implemento}`, {
+    const id = sessionStorage.getItem('id');    
+    fetch(`http://localhost:3000/api/inventario/implemento/`+id, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -234,9 +248,11 @@ function actualizarImplemento(datos){
         .then(data => {
             console.log('✔ Actualizado Correctamente:', data);
             alert(data.mensaje);
+            
         })
         .catch(error => {
             console.error('❌ Error al enviar al backend:', error);
             alert('Error al guardar en la base de datos');
         });
+        alert('✅ Actualizado Correctamente');
 }
