@@ -11,7 +11,7 @@
         integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
 </head>
 
-<body onload="recorrerDepartamentos()">
+<body>
     <h1 class="titulo">Editar Inventario Abogados Recovery</h1>
 
     <a class="btn btn-secondary" style="float:right" href="index.html">Inventario</a><br>
@@ -131,6 +131,7 @@
     </form>
     <script src='main_ef.js'></script>
     <script>
+    (async () => {
         const valor = document.querySelector('#valor');
         const fecha = document.querySelector('#fecha');
         const estado = document.querySelector('#estado');
@@ -142,10 +143,18 @@
         const categoria = document.querySelector('#categoria');
         const id_implemento = document.querySelector('#id_implemento');
 
-
+        // Espera a que recorrerDepartamentos() se complete
+        await recorrerDepartamentos();
 
         traerInformacion().then(async (informacion) => {
             console.log(informacion);
+
+            // Verifica si el objeto informacion está vacío
+            if (Object.keys(informacion).length === 0) {
+                console.error("Error: La información del implemento está vacía.");
+                alert("Error al cargar la información del implemento. Por favor, inténtelo de nuevo.");
+                return; // Sale de la función si la información está vacía
+            }
 
             valor.value = informacion.valor;
 
@@ -163,19 +172,19 @@
             nombre_imp.value = informacion.nombre;
             id_implemento.value = informacion.id_implemento;
             console.log("Información de departamentos cargada correctamente.");
-            console.log(informacion.nombre);
-            console.log(informacion.categoria);
-            console.log(informacion.id_implemento);
+            console.log(informacion.departamento);
+            console.log(informacion.propietario);
         }).catch(error => {
             console.error("Error al cargar la información de departamentos:", error);
         });
 
         // Obtener la fecha actual en formato YYYY-MM-DD
-  const hoy = new Date().toISOString().split("T")[0];
+        const hoy = new Date().toISOString().split("T")[0];
 
-  // Asignar la fecha máxima al input
-  document.getElementById("fecha").setAttribute("max", hoy);
-    </script>
+        // Asignar la fecha máxima al input
+        document.getElementById("fecha").setAttribute("max", hoy);
+    })();
+</script>
 </body>
 
 </html>

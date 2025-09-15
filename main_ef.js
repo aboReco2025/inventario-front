@@ -38,8 +38,8 @@ function activarValor() {
         inventario.reset();
         return;
     }
-    else{
-        if (Number(inventario.value) >100000000){
+    else {
+        if (Number(inventario.value) > 100000000) {
             alert("El valor debe ser menor a 100.000.000")
             inventario.reset();
             return;
@@ -53,10 +53,10 @@ function activarFecha() {
     return inventario.value;
 }
 
-function activarEstado(){
+function activarEstado() {
     const estado = document.querySelector('#estado');
     return estado.value;
-    
+
 }
 
 //Inserta la información en la tabla del front
@@ -139,8 +139,8 @@ async function nombre(selectedValue = null) {
     const name = document.querySelector("#implemento_name");
     const categoria = document.querySelector("#categoria").value;
     const url = `http://localhost:3000/api/inventario/cat_implemento/${encodeURIComponent(categoria)}`;
-    
-    if(!categoria){
+
+    if (!categoria) {
         name.innerHTML = "";
         return;
     }
@@ -167,77 +167,80 @@ async function nombre(selectedValue = null) {
 
 
 function recorrerDepartamentos() {
-const select = document.querySelector("#departamento");
-const url = 'http://localhost:3000/api/inventario/departamento';
+    return new Promise((resolve, reject) => {
+        const select = document.querySelector("#departamento");
+        const url = 'http://localhost:3000/api/inventario/departamento';
+        fetch(url, {
+            method: 'GET',
+        })
+            .then(res => res.json())
+            .then(lista_de_departamentos => {
+                for (let departamento of lista_de_departamentos) {
+                    let nuevaOpcion = document.createElement("option");
+                    nuevaOpcion.value = departamento.id;
+                    nuevaOpcion.text = departamento.nombre;
+                    select.add(nuevaOpcion);
+                }
+                resolve();
+            })
+            .catch(function (error) {
+                console.error("¡Error!", error);
+                (reject.error);
+            });
+    });
+}
+
+function recorrerImplementos() {
+    const select = document.querySelector("#categoria");
+    const url = 'http://localhost:3000/api/inventario/cat_implemento';
     fetch(url, {
         method: 'GET',
     })
         .then(res => res.json())
-        .then(lista_de_departamentos => {
-            for (let departamento of lista_de_departamentos) {
-                let nuevaOpcion = document.createElement("option");
-                nuevaOpcion.value = departamento.id;
-                nuevaOpcion.text = departamento.nombre;
-                select.add(nuevaOpcion);
-            }
-        })
-        .catch(function (error) {
-            console.error("¡Error!", error);
-        });
-}
-
-function recorrerImplementos(){
-const select = document.querySelector("#categoria");
-const url = 'http://localhost:3000/api/inventario/cat_implemento';
-    fetch(url,{
-        method: 'GET',
-    })
-        .then(res => res.json())
-        .then(lista_cat =>{
-            for (let implemento of lista_cat){
+        .then(lista_cat => {
+            for (let implemento of lista_cat) {
                 let nuevaOpcion = document.createElement("option");
                 nuevaOpcion.value = implemento.id;
                 nuevaOpcion.text = implemento.nombre;
                 select.add(nuevaOpcion);
             }
         })
-        .catch(function (error){
+        .catch(function (error) {
             console.error("¡Error!", error);
         })
 }
 
-function traerInformacion(){
+function traerInformacion() {
     return new Promise((resolve, reject) => {
         const id = sessionStorage.getItem('id');
         const url = 'http://localhost:3000/api/inventario/implemento/' + id;
         fetch(url, {
             method: 'GET',
         })
-        .then(res => {
-            if (!res.ok) {
-                // Si el estado no es OK, rechaza la promesa con un error
-                return reject(new Error(`HTTP error! Status: ${res.status}`));
-            }
-            // Verifica si la respuesta está vacía
-            if (res.status === 204) {
-                return reject(new Error("No Content: La respuesta está vacía"));
-            }
-            return res.json();
-        })
-        .then(implemento =>{
-            resolve(implemento);
-        })
-        .catch(function (error) {
-            console.error("¡Error!", error);
-            reject(error);
-        });
+            .then(res => {
+                if (!res.ok) {
+                    // Si el estado no es OK, rechaza la promesa con un error
+                    return reject(new Error(`HTTP error! Status: ${res.status}`));
+                }
+                // Verifica si la respuesta está vacía
+                if (res.status === 204) {
+                    return reject(new Error("No Content: La respuesta está vacía"));
+                }
+                return res.json();
+            })
+            .then(implemento => {
+                resolve(implemento);
+            })
+            .catch(function (error) {
+                console.error("¡Error!", error);
+                reject(error);
+            });
     })
 }
 
-
-function actualizarImplemento(datos){
-    const id = sessionStorage.getItem('id');    
-    fetch(`http://localhost:3000/api/inventario/implemento/`+id, {
+function actualizarImplemento(datos) {
+    const id = sessionStorage.getItem('id');
+    fetch(`http://localhost:3000/api/inventario/implemento/` + id, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -248,11 +251,11 @@ function actualizarImplemento(datos){
         .then(data => {
             console.log('✔ Actualizado Correctamente:', data);
             alert(data.mensaje);
-            
+
         })
         .catch(error => {
             console.error('❌ Error al enviar al backend:', error);
             alert('Error al guardar en la base de datos');
         });
-        alert('✅ Actualizado Correctamente');
+    alert('✅ Actualizado Correctamente');
 }
