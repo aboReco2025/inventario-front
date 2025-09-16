@@ -27,10 +27,12 @@ function cargarImplementos() {
                     year: 'numeric'
                 });
                 fila.insertCell().textContent = fechaFormateada;
+                fila.insertCell().textContent = implemento.sede;
+                fila.insertCell().textContent = implemento.descripcion;
                 fila.insertCell().textContent = implemento.estado;
                 const btnEditar = document.createElement('button');
                 btnEditar.textContent = 'Editar';
-                btnEditar.className = 'btn btn-warning btn-sm align-items-center';
+                btnEditar.className = 'btn btn-secondary btn-sm align-items-center';
                 btnEditar.style = 'float: center;';
                 btnEditar.dataset.id = implemento.id;
                 console.log(implemento);

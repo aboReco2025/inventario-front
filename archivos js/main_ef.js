@@ -92,23 +92,6 @@ form.addEventListener('submit', async function (event) {
     window.location.href = `index.html`;
 })
 
-// Inserta en cada fila de la tabla los datos del formulario
-function agregarFila(formulario) {
-    const fila = tabla.insertRow();
-    fila.insertCell().textContent = formulario.id_implemento;
-    fila.insertCell().textContent = formulario.nombre;
-    fila.insertCell().textContent = formulario.categoria;
-    fila.insertCell().textContent = formulario.departamento;
-    fila.insertCell().textContent = formulario.condicion;
-    fila.insertCell().textContent = formulario.pertenencia;
-    fila.insertCell().textContent = formulario.Propietario;
-    fila.insertCell().textContent = formulario.valor;
-    fila.insertCell().textContent = formulario.fecha;
-    fila.insertCell().textContent = formulario.total;
-    limpiarFormulario();
-}
-
-
 // Limpia el formulario después de agregar la fila o darle click en el botónde limpiar
 function limpiarFormulario() {
     document.querySelector('#formulario').reset();
