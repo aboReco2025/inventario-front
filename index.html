@@ -14,19 +14,49 @@
 <body>
     <header>
         <div class="left">
-            <nav>
-                <a href="index.html">
-                    <img src="img/img_reco.png" alt="logo Arcsas" class="nav-img">
-                </a>
-                <a class="btn btn-success" style="float: right" position="left" href="crear_Formulario.html">Crear
-                    Formulario</a>
-                <a id="exportar" class="btn btn-success" style="float: right" position="right">Exportar</a>
-            </nav>
+            <div class="menu-container">
+                <div class="menu" id="menu">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+            <div class="brand">
+                <img src="img/img_rem.png" alt="logo Recovery" class="logo">
+                <span class="name">Arcsas</span>
+            </div>
         </div>
-
+        <div>
+            <span class="name1">INVENTARIO</span>
+        </div>
+        <nav>
+            <!--<a href="">
+                <img src="img/img_reco.png" alt="logo Arcsas" class="nav-img">
+            </a>-->
+            <a id="exportar" class="btn btn-success" style="float: right" position="right">Exportar</a>
+        </nav>
     </header>
 
-    <main>
+    <div class="sidebar" id="sidebar">
+        <nav>
+            <ul>
+                <a href="#" class="selected">
+                    <img src="icons/library.svg" alt="library">
+                    <span>Inventario</span>
+                </a>
+                <a href="crear_Formulario.html">
+                    <img src="icons/file.svg" alt="add_implement">
+                    <span>Añadir Implemento</span>
+                </a>
+                <a href="#">
+                    <img src="icons/profile.svg" alt="profile">
+                    <span>Usuarios</span>
+                </a>
+            </ul>
+        </nav>
+    </div>
+
+    <main id="main">
         <aside>
         </aside>
         <section>
@@ -143,14 +173,12 @@
     @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
 
     * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
         font-family: "Nunito Sans", sans-serif;
         font-size: 1;
     }
 
     body {
+        background-color: #F2F2F2;
         width: 100%;
         height: 100vh;
         margin: 0;
@@ -158,20 +186,45 @@
     }
 
     header {
-        border: solid gray;
-        margin: 0px;
+        width: 100%;
+        z-index: 200;
+        display: flex;
+        justify-content: space-between;
+        padding: 0.45rem
+            /*Superior*/
+            2rem
+            /*Derecha*/
+            0.45rem
+            /*Abajo*/
+            1.27rem
+            /*Izquierda*/
+        ;
+        border-bottom: 1px solid var(--border-color);
+        position: fixed;
+        background-color: var(--background-color);
+        top: 0;
+        left: 0;
+
+
     }
 
     main {
-        border: solid pink;
-        margin: 0px;
+        margin-left: 2.6rem;
+        margin-right: -1.2rem;
+        padding: 1rem;
+        padding-top: 70px;
+        transition: margin-left 0.5s ease, margin-right 0.3s ease;
     }
 
     footer {
-        border: solid green;
-        margin: 0px;
+        margin-left: 2.9rem;
+        margin-right: -1.2rem;
+        padding: 1rem;
+        padding-top: 70px;
+        transition: margin-left 0.5s ease, margin-right 0.3s ease;
     }
 
+    /*Nav*/
     .nav-img {
         width: 11%;
     }
@@ -182,14 +235,22 @@
         text-decoration: none;
     }
 
-    nav a:hover {
-        border-bottom: solid black;
-    }
+    nav a:hover {}
 
     section {
-        border: solid yellow;
+        padding: 0
+            /*Superior*/
+            2
+            /*Derecha*/
+            0
+            /*Abajo*/
+            10rem
+            /*Izquierda*/
+        ;
+
     }
 
+    /*Variable global*/
     :root {
         --background-color: white;
         --text-title-color: #053D4E;
@@ -206,16 +267,80 @@
 
     }
 
-    /*.left{
-        border: 2px solid green;
-        width: 100px;
-        height: 20px;
+    .left {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
     }
-    .right{
-        border: 2px solid green;
-        width: 100px;
-        height: 20px;
-    }*/
+
+    .brand {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.6rem;
+    }
+
+    .brand .logo {
+        width: 3.3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1.4rem;
+    }
+
+    .brand .name {
+        font-size: 1.5rem;
+        font-weight: 900;
+        color: var(--text-title-color)
+    }
+
+    .name1 {
+        font-size: 1.5rem;
+        font-weight: 900;
+        color: var(--text-title-color);
+        display: flex;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+        gap: 0.6rem;
+    }
+
+    .menu-container {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .menu {
+        width: 1.5rem;
+        height: 37%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    /*Menú left*/
+
+    .menu div {
+        width: 100%;
+        height: 0.15rem;
+        background-color: var(--menu-color);
+        transition: all 0.2s ease;
+    }
+
+    .menu.menu-toggle div:first-child {
+        width: 40%;
+        transform: rotate(-35deg) translate(-30%, 175%)
+    }
+
+    .menu.menu-toggle div:last-child {
+        width: 40%;
+        transform: rotate(35deg) translate(-30%, -160%)
+    }
+
+    /*Form del formulario*/
 
     .form-select,
     .form-control {
@@ -250,6 +375,92 @@
         margin: 20px auto;
         padding: 20px;
         border: 1px solid #ccc;
+    }
+
+    /*SideBar*/
+
+    .sidebar {
+        margin-top: 4rem;
+        width: 4rem;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        padding: 1.1rem 0;
+        border-right: solid var(--border-color);
+        overflow-y: auto;
+        background-color: var(--background-color);
+        transition: 0.5s;
+    }
+
+    .sidebar.menu-toggle~main {
+        margin-left: 14rem;
+        margin-right: -1rem;
+    }
+
+    .sidebar.menu-toggle {
+        width: 15rem;
+        margin-right: 16rem;
+    }
+
+    .sidebar a {
+        display: flex;
+        align-items: center;
+        gap: 1.3rem;
+        padding: 0.9rem 0.7rem;
+        text-decoration: none;
+        margin: 0 0.5rem;
+        border-radius: 0.5rem;
+        white-space: nowrap;
+        overflow: hidden;
+        color: var(--text-color);
+    }
+
+    .sidebar a:hover {
+        background-color: var(--background-hover);
+    }
+
+    .sidebar a.selected {
+        color: var(--text-selected-color);
+        background-color: var(--background-selected);
+    }
+
+    .sidebar img {
+        width: 1.6rem;
+        flex-shrink: 0;
+    }
+
+    .sidebar nav ul {
+        list-style: none;
+        padding-left: 0;
+        margin: 0;
+    }
+
+    /*Responsive*/
+
+    @media (max-width:500px) {
+        .sidebar {
+            width: 0;
+        }
+
+        .menu.menu-toggle div:first-child {
+            width: 40%;
+            transform: rotate(-35deg) translate(-30%, 175%)
+        }
+
+        .menu.menu-toggle div:last-child {
+            width: 40%;
+            transform: rotate(35deg) translate(-30%, -160%)
+        }
+
+        main {
+            margin-left: 0;
+        }
+
+        main.menu-toggle {
+            margin-left: 0;
+        }
     }
 </style>
 
