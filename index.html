@@ -12,70 +12,86 @@
 </head>
 
 <body>
-    <div>
-        <a id="exportar" class="btn btn-success" style="float: left" position="left">Exportar</a>
-    </div><br><br>
-    <div class="row g-2 align-items-center mb-3">
-        <div class="col-auto">
-            <label for="columnaFiltro" class="form-label fw-bold">Filtrar por:</label>
-            <select id="columnaFiltro" class="form-select">
-                <option value="1">Nombre</option>
-                <option value="2">Categoría</option>
-                <option value="3">Departamento</option>
-                <option value="4">Condición</option>
-                <option value="5">Pertenencia</option>
-                <option value="6">Propietario</option>
-                <option value="10">Sede</option>
-                <option value="12">Estado</option>
-            </select>
+    <header>
+        <div class="left">
+            <nav>
+                <a href="index.html">
+                    <img src="img/img_reco.png" alt="logo Arcsas" class="nav-img">
+                </a>
+                <a class="btn btn-success" style="float: right" position="left" href="crear_Formulario.html">Crear
+                    Formulario</a>
+                <a id="exportar" class="btn btn-success" style="float: right" position="right">Exportar</a>
+            </nav>
         </div>
 
-        <div class="col-auto">
-            <label for="valorFiltro" class="form-label fw-bold">Valor:</label>
-            <input type="text" id="valorFiltro" class="form-control" placeholder="Ingrese valor">
-        </div>
+    </header>
 
-        <div class="form-label fw-bold">
-            <button class="btn btn-primary" onclick="aplicarFiltro()">Aplicar</button>
-            <button class="btn btn-danger" onclick="limpiarFiltro()">Limpiar Filtro</button>
+    <main>
+        <aside>
+        </aside>
+        <section>
+            <div class="row g-2 align-items-center mb-3 justify-content-end">
+                <div class="col-auto">
+                    <label for="columnaFiltro" class="form-label fw-bold">Filtrar por:</label>
+                    <select id="columnaFiltro" class="form-select">
+                        <option value="1">Nombre</option>
+                        <option value="2">Categoría</option>
+                        <option value="3">Departamento</option>
+                        <option value="4">Condición</option>
+                        <option value="5">Pertenencia</option>
+                        <option value="6">Propietario</option>
+                        <option value="10">Sede</option>
+                        <option value="12">Estado</option>
+                    </select>
+                </div>
 
-            <a class="btn btn-success" style="float: right" position="left" href="crear_Formulario.html">Crear
-                Formulario</a>
-        </div>
-    </div>
+                <div class="col-auto">
+                    <label for="valorFiltro" class="form-label fw-bold">Valor:</label>
+                    <input type="text" id="valorFiltro" class="form-control" placeholder="Ingrese valor">
+                </div>
 
-    <table class="table table-striped-columns" id="tabla">
-        <thead>
-            <tr>
-                <th>Id Implemento</th>
-                <th>Nombre</th>
-                <th>Categoría</th>
-                <th>Departamento</th>
-                <th>Condición</th>
-                <th>Pertenencia</th>
-                <th>Propietario</th>
-                <th>Cantidad</th>
-                <th>Valor</th>
-                <th>Fecha</th>
-                <th>Sede</th>
-                <th>Descripción</th>
-                <th>Estado</th>
-                <th>Opciones</th>
-            </tr>
-        </thead>
-        <tbody id="tabla-body">
-        </tbody>
-    </table>
-    <div class="d-flex justify-content-between mb-2">
-        <div>
-            <span id="totalRegistros" class="fw-bold"></span>
-        </div>
-    </div>
+                <div class="col-auto">
+                    <label class="form-label fw-bold d-block">&nbsp;</label>
+                    <button class="btn btn-primary" onclick="aplicarFiltro()">Aplicar</button>
+                    <button class="btn btn-danger" onclick="limpiarFiltro()">Limpiar Filtro</button>
+                </div>
+            </div>
+        </section>
+        <section>
+            <table class="table table-striped-columns" id="tabla">
+                <thead>
+                    <tr>
+                        <th>Id Implemento</th>
+                        <th>Nombre</th>
+                        <th>Categoría</th>
+                        <th>Departamento</th>
+                        <th>Condición</th>
+                        <th>Pertenencia</th>
+                        <th>Propietario</th>
+                        <th>Cantidad</th>
+                        <th>Valor</th>
+                        <th>Fecha</th>
+                        <th>Sede</th>
+                        <th>Descripción</th>
+                        <th>Estado</th>
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-body">
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-between mb-2">
+                <div>
+                    <span id="totalRegistros" class="fw-bold"></span>
+                </div>
+            </div>
+        </section>
+    </main>
 
+    <footer>
+        Versión 1.0
+    </footer>
 </body>
-<footer>
-    Versión 1.0
-</footer>
 <script>
     document.getElementById("btnFiltrar").addEventListener("click", aplicarFiltro);
 
@@ -124,6 +140,83 @@
 </script>
 
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Nunito Sans", sans-serif;
+        font-size: 1;
+    }
+
+    body {
+        width: 100%;
+        height: 100vh;
+        margin: 0;
+        padding: 4px;
+    }
+
+    header {
+        border: solid gray;
+        margin: 0px;
+    }
+
+    main {
+        border: solid pink;
+        margin: 0px;
+    }
+
+    footer {
+        border: solid green;
+        margin: 0px;
+    }
+
+    .nav-img {
+        width: 11%;
+    }
+
+    nav a {
+        margin-top: 2px;
+        margin-right: 3px;
+        text-decoration: none;
+    }
+
+    nav a:hover {
+        border-bottom: solid black;
+    }
+
+    section {
+        border: solid yellow;
+    }
+
+    :root {
+        --background-color: white;
+        --text-title-color: #053D4E;
+        --text-color: #32363B;
+        --icon-color: #32363B;
+        --icon-menu-color: #707780;
+        --menu-color: #707780;
+
+        --text-selected-color: #355CC0;
+        --background-selected: #EBF0FF;
+        --background-hover: #F7F9FA;
+
+        --border-color: #E6E9ED;
+
+    }
+
+    /*.left{
+        border: 2px solid green;
+        width: 100px;
+        height: 20px;
+    }
+    .right{
+        border: 2px solid green;
+        width: 100px;
+        height: 20px;
+    }*/
+
     .form-select,
     .form-control {
         max-width: 250px;
